@@ -1,0 +1,21 @@
+
+1.Remove all comments
+
+2.File name changes
+	HelloWorld.js -> BestRouteList.js
+	Due to which
+	In File BestRouteList.js 
+		class name to BestRouteList
+	In file MainStackNavigator.js 
+		Screen name="Best Routes" component={BestRouteList}
+
+3.Function Name Changes
+
+
+4.Variable Name Changes
+	
+
+5.Other Changes
+
+
+

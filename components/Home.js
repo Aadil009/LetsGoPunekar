@@ -42,10 +42,6 @@ export default class Home extends Component {
 	  
 	  async componentDidMount() {
 		this.getCurrentPosition();
-		// await Font.loadAsync({
-		// 	'Farsan-Regular': require('./assets/fonts/Farsan-Regular.ttf'),
-		// 	'City Lights': require('./assets/fonts/City Lights.ttf'),
-		//   });
 		  this.setState({ fontLoaded: true });
 	  }
 
@@ -73,7 +69,6 @@ export default class Home extends Component {
 		this.state = {
 			query:'',
 			query2:'',
-		//	selected: '',
 			stopnames:stopnames.name,
 			AnswerText:'',
 			routeData:[],
@@ -98,7 +93,7 @@ export default class Home extends Component {
 	findRoute= async () =>{
 		
 		await this.GetValueFunction(),
-		this.props.navigation.navigate('HelloWorld',{routeData:this.state.routeData,stopsData:this.state.stopsData,jsondata:this.state.jsondata})
+		this.props.navigation.navigate('Best Routes',{routeData:this.state.routeData,stopsData:this.state.stopsData,jsondata:this.state.jsondata})
 
 	}
 
@@ -114,7 +109,7 @@ export default class Home extends Component {
 		let stoplong=[];
 		this.setState({AnswerText:null});
 		const {query, query2} = this.state;
-		await fetch('http://192.168.43.81:5000/routes?src='+query+'&dest='+query2)
+		await fetch('http://192.168.1.7:5000/routes?src='+query+'&dest='+query2)
 		
 		.then((response) => response.json())
     			.then((responseJson) => {
@@ -122,8 +117,6 @@ export default class Home extends Component {
 					responseJson.map((ele)=>stops.push(ele.stops));
 					responseJson.map((ele)=>stoplat.push(ele.latitude));
 					responseJson.map((ele)=>stoplong.push(ele.longitude));
-					//   console.log("Length of array is:"+routes.length);
-					//   console.log("stops data"+stops)
 					this.setState({jsondata:responseJson})
       				this.setState({routeData:routes});
 					this.setState({stopsData:stops});
@@ -150,34 +143,6 @@ export default class Home extends Component {
 		let textEle1=this.state.stopsData.map((s)=>{
 		}
 		);
-		// console.log('Hello'+this.state.stopsDataata)
-
-		// let textEles=this.state.routeData.map((r)=> {   
-		// 	return(<TouchableHighlight key={r} onPress={()=>{
-		// 		stopd = this.state.stopsData[this.state.routeData.indexOf(r)]
-		// 		pdata = []
-		// 		sdata = []
-		// 		// rdata= this.state.jsondata[this.state.routeData.indexOf(r)]["source arrival time"]
-		// 		// drdata= this.state.jsondata[this.state.routeData.indexOf(r)]["destination arrival time"]
-		// 		sadata=this.state.jsondata[this.state.routeData.indexOf(r)]
-				
-		// 		for(var i=0;i<stopd.length;i++) {
-		// 			pdata.push({lat:stopd[i].latitude,long:stopd[i].longitude}) //push latitude ,longitude in pdata which are on (2,3).(5,6)....index
-		// 		} 
-		// 		for(var i=0;i<stopd.length;i++) {
-		// 			sdata.push({stopname:stopd[i].stop}) //push latitude ,longitude in pdata which are on (2,3).(5,6)....index
-		// 		} 
-				
-				
-		// 		this.props.navigation.navigate('RouteMap',{pdata:{pdata:pdata,sdata:sdata,satime:sadata["source arrival time"],datime:sadata["destination arrival time"]}})		
-		// 	}}>
-				
-
-      	// 		{/* <Text style={{textAlign:"center",fontSize:20,padding:20,color:'rgb(0,0,255)',backgroundColor: 'rgb(50,150,120)',margin:5}}>{r+":"+ ++cnt}</Text> */}
-				  
-		// 		  <Text style={{textAlign:"center",zIndex:1,top:200,fontSize:15,padding:20,color:'black',backgroundColor: 'white',margin:1}}>{r+":"+ ++cnt}</Text>
-		// 		  </TouchableHighlight>
-		// 		  )});
 
 
 		const {query} = this.state;
@@ -204,8 +169,6 @@ export default class Home extends Component {
 				<View style={{alignItems:'center' ,margin:10,}}>  
 				<Icon style={{padding:10,zIndex:7,left:150}} name="home" size={20} color="white"/>
 					<Autocomplete
-				// 	containerStyle={{borderColor:'red',backgroundColor:'purple', position:'absolute',height:50, borderWidth:2,zIndex:1,borderRadius:5,width:deviceWidth-20
-				// }}
 				style={{borderRadius:10,backgroundColor:'#BB2CD9',height:40,color:'white'}}
 					containerStyle={styles.autocompleteContainer}
 					data={ stopnames.length == 1 && comp(query, stopnames[0])?[]:stopnames}
@@ -254,16 +217,6 @@ export default class Home extends Component {
 					<Button 
 						title="Find Routes" onPress={this.findRoute} color="red"/>
 						</View>
-						{/* {this.state.loading && <View style={styles.loading}>
-							<ActivityIndicator/></View>} */}
-					
-				
-				{/* <View style={styles.textoutputStyle}>
-					<ScrollView >
-						<Text style={styles.outputText}>{this.state.AnswerText}</Text>
-						{textEles}
-					</ScrollView> 
-				</View> */}
 </View>
 			</View>
 		);
@@ -274,26 +227,17 @@ export default class Home extends Component {
 const styles = StyleSheet.create({  
 	container: {  
     		flex: 1,
-			// alignItems: 'center',
-			// justifyContent: 'center',
-			//width:'100%',
-			//height:'10%',
 	  },
 	  itemText: {
 		fontSize: 15,
 		paddingTop: 5,
 		paddingBottom: 5,
 		margin: 2,
-		
-		//fontFamily:'Farsan-Regular'
 	  },
 	  autocompleteContainer: {
 		flex: 1,
-		// borderRadius:10,
-		// borderWidth: 1,
 		margin:'1%',
 		left: 0,
-		// borderColor: '#9a73ef',
 		 position: 'absolute',
 		right: 0,
 		top: -5,
@@ -301,10 +245,7 @@ const styles = StyleSheet.create({
 	  },
 	  autocompleteContainer2: {
 		flex: 1,
-		// borderColor: '#9a73ef',  
-		// borderWidth: 1, 
 		margin:'1%',
-		// borderRadius:10,
 		 left: 0,
 		 position: 'absolute',
 		 right: 0,
@@ -341,7 +282,6 @@ const styles = StyleSheet.create({
   
 	  outputStyle:{
 		  bottom:'-30%',
-		  //flex:1,
 	  },
 	  outputText: {
 		  backgroundColor: 'red',
@@ -375,12 +315,8 @@ const styles = StyleSheet.create({
   	textOutputStyle: { 
 		backgroundColor:'red',
 		marginHorizontal:100,
-		//bottom:'-50%',
 		position:'absolute',
 		top: '50%',
-		//zIndex:1,
-
-		//top:'-50%', 
 		flex:1,
  
 	  },

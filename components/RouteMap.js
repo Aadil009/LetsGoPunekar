@@ -203,25 +203,21 @@ export default class RouteMap extends React.Component {
     left: 0,
     right: 0,
     bottom: 0,
-    // zIndex: 1,
+  
   },
-  // container:{
-  //   flex:1,
-  // },
   textview:{
     flex:1,
     top:100,
     alignItems:'center',
     justifyContent:'center',
-    // zIndex:3
+  
   },
   container: {
     flex: 1,
-    //alignItems: "center",
+  
     justifyContent: "center",
   },
   touchableStyle:{
-    // top:300,
     top:deviceHeight/3,
   },
   cover: {
@@ -250,7 +246,7 @@ export default class RouteMap extends React.Component {
   descriptionTextStyle:{
     fontSize:15,
     fontWeight:'bold',
-    //height:40,
+  
     padding: 10
   },
 
