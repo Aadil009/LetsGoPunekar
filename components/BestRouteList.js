@@ -1,7 +1,7 @@
 import React,{ Component} from 'react';
 import { StyleSheet, Text, View,ScrollView,TouchableOpacity,TouchableHighlight} from 'react-native';
 
-export default class HelloWorld extends React.Component {
+export default class BestRouteList extends React.Component {
     constructor() {
 		super()
 		this.state = {
@@ -14,8 +14,7 @@ export default class HelloWorld extends React.Component {
         this.state.routeData = params.routeData;
         this.state.jsondata = params.jsondata;
         this.state.stopsData = params.stopsData;
-       //console.log(this.state.jsondata)
-
+    
        let routesArray=[]
        let sourceArrivalTime=[]
        let destinationArrivalTime=[]
@@ -27,13 +26,14 @@ export default class HelloWorld extends React.Component {
             
 
         }
-       // console.log(this.state.stopsData[1][1]["latitude"])
-        // console.log(cordinates1)
         
         let textEles=this.state.routeData.map((r)=> {   
         return(<TouchableHighlight style={styles.touchableStyle} underlayColor='' key={r} 
             onPress={()=>{ 
-				let stopd = this.state.stopsData[this.state.routeData.indexOf(r)]
+				
+				 let stopd = this.state.stopsData[this.state.routeData.indexOf(r)]
+	
+				console.log("data about stopd :"+stopd)
 				let pdata = []
                 let sdata = []
                 
@@ -92,14 +92,10 @@ const styles = StyleSheet.create({
 	container: {  
     		flex: 1,
 			backgroundColor: 'red'
-			//width:'100%',
-			//height:'10%',
     },
     touchableStyle:{
         justifyContent:"center",
         padding:15,
-        
-        //alignItems:'center'
     },
     textstyle:{
         fontSize:20
@@ -114,10 +110,7 @@ const styles = StyleSheet.create({
     backgroundColor:'red',
     marginHorizontal:100,
     padding: 15,
-    //bottom:'-50%',
     position:'absolute',
-    //   top: '50%',
-    //zIndex:1, 
     flex:1,
     },
 });
