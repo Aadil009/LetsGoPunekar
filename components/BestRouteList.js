@@ -14,7 +14,7 @@ export default class BestRouteList extends React.Component {
         this.state.routeData = params.routeData;
         this.state.jsondata = params.jsondata;
         this.state.stopsData = params.stopsData;
-    
+        console.log(this.state.jsondata);
        let routesArray=[]
        let sourceArrivalTime=[]
        let destinationArrivalTime=[]
@@ -27,13 +27,15 @@ export default class BestRouteList extends React.Component {
 
         }
         
-        let textEles=this.state.routeData.map((r)=> {   
-        return(<TouchableHighlight style={styles.touchableStyle} underlayColor='' key={r} 
+        let textEles=this.state.routeData.map((r,index)=> {
+        
+        return(<TouchableHighlight style={styles.touchableStyle} underlayColor='rgb(255,255,255)'
+         key={index} 
             onPress={()=>{ 
 				
 				 let stopd = this.state.stopsData[this.state.routeData.indexOf(r)]
 	
-				console.log("data about stopd :"+stopd)
+	
 				let pdata = []
                 let sdata = []
                 
@@ -47,15 +49,17 @@ export default class BestRouteList extends React.Component {
 				this.props.navigation.navigate('RouteMap',{pdata:{pdata:pdata,sdata:sdata,satime:sadata["source arrival time"],datime:sadata["destination arrival time"],sourceArrivalTime:sourceArrivalTime,destinationArrivalTime:destinationArrivalTime,routesArray:routesArray}})		
 			}}>
 				  
-				  <Text style={{textAlign:"center",zIndex:1,fontSize:15,padding:20,color:'white',backgroundColor: 'purple',margin:1}}>{r+":"}</Text>
+				  <Text style={{textAlign:"center",zIndex:1,fontSize:15,padding:20,color:'white',backgroundColor: 'purple',margin:1}}>{r}</Text>
 				  </TouchableHighlight>
                   
         )
         }
         );
-
-        this.state.routeData.map((r)=> {   
-            return(<View style={styles.touchableStyle} underlayColor='' key={r} 
+        
+        this.state.routeData.map((r,index)=> {   
+              
+            return(<View style={styles.touchableStyle} underlayColor='rgb(255,255,255)'
+             key={index} 
                 onPress={()=>{ 
                     let stopd = this.state.stopsData[this.state.routeData.indexOf(r)]
                     let pdata = []
@@ -70,7 +74,7 @@ export default class BestRouteList extends React.Component {
                     this.props.navigation.navigate('RouteMap',{pdata:{pdata:pdata,sdata:sdata,satime:sadata["source arrival time"],datime:sadata["destination arrival time"]}})		
                 }}>
                       
-                      <Text style={{textAlign:"center",zIndex:1,fontSize:15,padding:20,color:'white',backgroundColor: 'purple',margin:1}}>{r+":"}</Text>
+                      <Text style={styles.listText}>{r+":"}</Text>
                       </View>
                       
             )
@@ -107,10 +111,19 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     textOutputStyle: { 
-    backgroundColor:'red',
-    marginHorizontal:100,
-    padding: 15,
-    position:'absolute',
-    flex:1,
+        backgroundColor:'red',
+        marginHorizontal:100,
+        padding: 15,
+        position:'absolute',
+        flex:1,
     },
+    listText:{
+        textAlign:"center",
+        zIndex:1,
+        fontSize:15,
+        padding:20,
+        color:'white',
+        backgroundColor: 'purple',
+        margin:1,
+    }
 });

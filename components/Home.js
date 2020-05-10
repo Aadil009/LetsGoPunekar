@@ -10,9 +10,9 @@ import Loader from './Loader'
 import {TouchableOpacity,TouchableHighlight,TouchableWithoutFeedback, StyleSheet, View, TextInput, Text, Alert ,Button, ScrollView} from "react-native";  
 import * as Font from 'expo-font';
 
-const stopnames = require("../stopname.json");
+const stopNames = require("../stopname.json");
 let deviceWidth = Dimensions.get('window').width
-  let deviceHeight = Dimensions.get('window').height
+let deviceHeight = Dimensions.get('window').height
 const LATITUDE_DELTA = 0.01;
 const LONGITUDE_DELTA = 0.01;
 
@@ -26,26 +26,17 @@ const initialRegion = {
 export default class Home extends Component { 
 	map = null;
 	
-	state = {
-		data:[{long:73.6,lat:18.5}],
-		ready: true,
-		fontLoaded: false,
-		stopnames:[],
-		open: true,
-		open1:true
-	  };
-
-	  setRegion(region) {
+	setRegion(region) {
 		this.setState({ region });
-	  }
+	}
 
 	  
-	  async componentDidMount() {
+	async componentDidMount() {
 		this.getCurrentPosition();
-		  this.setState({ fontLoaded: true });
-	  }
+		this.setState({ fontLoaded: true });
+	}
 
-	  getCurrentPosition() {
+	getCurrentPosition() {
 		try {
 		  navigator.geolocation.getCurrentPosition(
 			(position) => {
@@ -58,8 +49,8 @@ export default class Home extends Component {
 			  this.setRegion(region);
 			},
 		  );
-		} catch(e) {
-		  alert(e.message || "");
+		} catch(error) {
+		  alert(error.message || "");
 		}
 	  }
 	
@@ -67,27 +58,27 @@ export default class Home extends Component {
 	constructor() {
 		super()
 		this.state = {
-			query:'',
-			query2:'',
-			stopnames:stopnames.name,
+			source:'',
+			destination:'',
+			stopNames:stopNames.name,
 			AnswerText:'',
 			routeData:[],
 			stopsData:[],
 			jsondata:0,
-			TextInputValueSource: '',
-			TextInputValueDestination: '',
 			loading: false,
-			
+			data:[{long:73.6,lat:18.5}],
+			ready: true,
+			fontLoaded: false,
+			open: true,
+			open1:true	
 		}
 	}
 
-	findLoc = (query) => {
-		if(query==='' ) return [];
-		const regex = new RegExp(`${query.trim()}`, 'i');
-		//onsole.log("..",stopnames.name);
-		const {stopnames} = this.state;
-		//return the filtered film array according the query from the input
-		return stopnames.filter(stopname => stopname.search(regex) >= 0);
+	findLoc = (inputStopName) => {
+		if(inputStopName==='' ) return [];
+		const regex = new RegExp(`${inputStopName.trim()}`, 'i');
+		const stopNames = this.state.stopNames;
+		return stopNames.filter(stopname => stopname.search(regex) >= 0);
 	}
 
 	findRoute= async () =>{
@@ -108,15 +99,16 @@ export default class Home extends Component {
 		let stoplat=[];
 		let stoplong=[];
 		this.setState({AnswerText:null});
-		const {query, query2} = this.state;
-		await fetch('http://192.168.1.7:5000/routes?src='+query+'&dest='+query2)
+		const source = this.state.source;
+		const destination = this.state.destination;
+		await fetch('http://192.168.1.7:5000/routes?src='+source+'&dest='+destination)
 		
 		.then((response) => response.json())
     			.then((responseJson) => {
-      				responseJson.map((ele)=>routes.push(ele.route));
-					responseJson.map((ele)=>stops.push(ele.stops));
-					responseJson.map((ele)=>stoplat.push(ele.latitude));
-					responseJson.map((ele)=>stoplong.push(ele.longitude));
+      				responseJson.map((element)=>routes.push(element.route));
+					responseJson.map((element)=>stops.push(element.stops));
+					responseJson.map((element)=>stoplat.push(element.latitude));
+					responseJson.map((element)=>stoplong.push(element.longitude));
 					this.setState({jsondata:responseJson})
       				this.setState({routeData:routes});
 					this.setState({stopsData:stops});
@@ -130,7 +122,8 @@ export default class Home extends Component {
     			})
     		.catch((error) => {
       			console.error(error);
-    		});console.log(query)
+			});
+			
 		 }
 		 
 		
@@ -140,20 +133,18 @@ export default class Home extends Component {
 		
 		const { region } = this.state;
 		const { children, renderMarker, markers } = this.props;
-		let textEle1=this.state.stopsData.map((s)=>{
-		}
-		);
-
-
-		const {query} = this.state;
-		const {query2} = this.state;
-		const stopnames = this.findLoc(query);
-		stopnames2 = this.findLoc(query2);
-		const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
+		let textEle1=this.state.stopsData;
+		
+		const source = this.state.source;
+		const destination = this.state.destination;
+		const stopName1 = this.findLoc(source);
+		const stopName2 = this.findLoc(destination);
+		
+		const compareStrings = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
+		let keyCount=0;
 		return (
 			<View style={StyleSheet.absoluteFillObject}>
-				<Loader
-          loading={this.state.loading} />
+				<Loader	loading={this.state.loading} />
 				<MapView style={StyleSheet.absoluteFillObject} 
 					showsUserLocation
 					ref={ map => { this.map = map }}
@@ -167,58 +158,60 @@ export default class Home extends Component {
 				</MapView>
 
 				<View style={{alignItems:'center' ,margin:10,}}>  
-				<Icon style={{padding:10,zIndex:7,left:150}} name="home" size={20} color="white"/>
-					<Autocomplete
-				style={{borderRadius:10,backgroundColor:'#BB2CD9',height:40,color:'white'}}
+				<Icon style={styles.icon} name="home" size={20} color="white"/>
+				<Autocomplete
+					style={styles.autocompleteRadius}
 					containerStyle={styles.autocompleteContainer}
-					data={ stopnames.length == 1 && comp(query, stopnames[0])?[]:stopnames}
-					defaultValue={query}
+					data={ stopName1.length == 1 && compareStrings(source, stopName1[0])?[]:stopName1}
+					defaultValue={source}
 					hideResults={!this.state.open}
-					onChangeText={text => {this.setState({ query: text,open: true });}}
+					onChangeText={text => {this.setState({ source: text,open: true });}}
 					placeholder="From"
-					renderItem={( {item, i} ) => (
-					<TouchableOpacity onPress={() => this.setState({ query: item,open: false })}>
-					<Text style={styles.itemText}>
-						{item} 
-					</Text>
-					</TouchableOpacity>
-					)}
-					/>
+					renderItem={( {item, i} ) =>{ 
+						
+						return(
+							<TouchableOpacity key={i} onPress={() => this.setState({ source: item,open: false })}>
+								<Text style={styles.itemText}>
+									{item} 
+								</Text>
+							</TouchableOpacity>
+						)
+					}}
+				/>
 				
-				<Icon style={{padding:10,zIndex:7,left:150}} name="bus" size={17} color="white"/>
-					<Autocomplete
-				// 	containerStyle={{borderColor:'red', backgroundColor:'purple',position:'absolute', height:50, margin:100, borderWidth:2,borderRadius:5,width:deviceWidth-20
-				// }}
-						style={{borderRadius:10,backgroundColor:'#BB2CD9',height:40,color:'white'}}
+				<Icon style={styles.icon} name="bus" size={17} color="white"/>
+				<Autocomplete
+					style={styles.autocompleteRadius}
 					containerStyle={styles.autocompleteContainer2}
-					data={ (stopnames2.length == 1 && comp(query2, stopnames2[0]))?[]:stopnames2}
-					defaultValue={query2}
+					data={ (stopName2.length == 1 && compareStrings(destination, stopName2[0]))?[]:stopName2}
+					defaultValue={destination}
 					hideResults={!this.state.open1}
-					onChangeText={text => {this.setState({ query2: text,open1: true  }); }}
+					onChangeText={text => {this.setState({ destination: text,open1: true  }); }}
 					placeholder="To"
 
-					renderItem={( {item, i} ) => (
-
-						<TouchableOpacity onPress={() => this.setState({ query2: item ,open1: false })}>
-							    
-						<Text style={styles.itemText}>
-								
-							{item} 
-						</Text>
+					renderItem={( {item, i} ) =>{ 
+						
+						return(
+						<TouchableOpacity key={i} onPress={() => this.setState({ destination: item ,open1: false })}>
+   
+							<Text style={styles.itemText}>
+								{item} 
+							</Text>
 						</TouchableOpacity>
 					)}
-					/>
+					}
+				/>
 
 				
 
 				
-<View style={styles.findRoute}>
-	
+					<View style={styles.findRoute}>
 					<Button 
-						title="Find Routes" onPress={this.findRoute} color="red"/>
-						</View>
-</View>
+						title="Find Routes" onPress={this.findRoute} color="red"
+					/>
+					</View>
 			</View>
+		</View>
 		);
 		
   	}  
@@ -252,6 +245,11 @@ const styles = StyleSheet.create({
 		top: 40,
 		borderRadius:10,
 		 zIndex: 5
+	  },
+	  autocompleteRadius:{
+		borderRadius:10,
+		backgroundColor:'#BB2CD9',
+		height:40,color:'white',
 	  },
 	  mainStyle:{
 		  alignItems:'center',
@@ -341,6 +339,11 @@ const styles = StyleSheet.create({
 	containerView: {
 		flex:1,
 		
-	}
+	},
+	icon:{
+		padding:10,
+		zIndex:7,
+		left:150,
+	},
 })  
 

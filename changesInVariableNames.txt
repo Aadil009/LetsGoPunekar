@@ -13,7 +13,9 @@
 
 
 4.Variable Name Changes
-	
+	stopname -> stopName
+	query->source
+	query2 -> destination	
 
 5.Other Changes
 
