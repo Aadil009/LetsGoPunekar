@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Home from './components/Home'
 import RouteMap from './components/RouteMap'
-import HelloWorld from './components/HelloWorld'
+import BestRouteList from './components/BestRouteList'
 
 const Stack = createStackNavigator()
 
@@ -23,7 +23,7 @@ function MainStackNavigator() {
             headerTitleAlign:'center'
             
           }} />
-          <Stack.Screen name='HelloWorld' component={HelloWorld}
+          <Stack.Screen name='Best Routes' component={BestRouteList}
         options={{
           headerTitleAlign:'center'
           
