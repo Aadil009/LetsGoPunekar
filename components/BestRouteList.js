@@ -27,15 +27,14 @@ export default class BestRouteList extends React.Component {
             
 
         }
-        //console.log(sourceArrivalTime);
-        //correct till this point
+        
     
         let textEles=this.state.routeData.map((r,key)=> {
         
         return(<TouchableHighlight style={styles.touchableStyle} underlayColor='rgb(255,255,255)'
          key={key} 
             onPress={()=>{ 
-				console.log(key);
+				
 			   let stopd = this.state.stopsData[this.state.routeData.indexOf(r)]
 	
 	
