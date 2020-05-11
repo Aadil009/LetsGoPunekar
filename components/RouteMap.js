@@ -1,6 +1,7 @@
 import React,{ Component} from 'react';
 import { StyleSheet, Text, View, Animated, Button, TouchableOpacity,ScrollView, Dimensions} from 'react-native';
 import MapView from 'react-native-maps';
+
 let deviceWidth = Dimensions.get('window').width
     let deviceHeight = Dimensions.get('window').height
 
@@ -37,6 +38,19 @@ export default class RouteMap extends React.Component {
    super()
    }
  
+
+
+ toTwelveHours(str){
+	let tokens=str.split(":");
+	let hrs=parseInt(tokens[0]);
+	if(hrs>12){
+		hrs=hrs%12;
+	}
+	tokens[0]=hrs;
+	let inTwelveHrs=tokens.join(":");
+	return inTwelveHrs;
+  }
+
    render() {
     
     const screenHeight = Dimensions.get("window").height;
@@ -81,10 +95,15 @@ export default class RouteMap extends React.Component {
     var sourceArrivalTime=[]
     var destinationArrivalTime=[]
     routesArray =params.pdata.routesArray
-    sourceArrivalTime=params.pdata.sourceArrivalTime
+    sourceArrivalTime=params.pdata.sourceArrivalTime.map(
+      (time)=>{
+        return this.toTwelveHours(time);
+      }
+    );
+    //console.log(sourceArrivalTime);
     destinationArrivalTime=params.pdata.destinationArrivalTime
     var source= [params.pdata.satime,params.pdata.datime];
-     //console.log(sourceArrivalTime)
+     console.log(source)
    var markers = [{longitude:0, latitude:0}]
    var markerss = [{longitude:0, latitude:0}]
 
@@ -124,12 +143,12 @@ export default class RouteMap extends React.Component {
         coordinate={markerss[0]}
         pinColor='purple'
         title={String(stopname[0])}
-        description={'Time:'+String(source[0])}
+        description={'Time:'+this.toTwelveHours(String(source[0]))}
         />
         <MapView.Marker 
         coordinate={markerss[1]}
         title={String(stopname[1])}
-        description={'Time:'+String(source[1])}
+        description={'Time:'+this.toTwelveHours(String(source[1]))}
         pinColor= 'purple'
         />
         
@@ -170,8 +189,8 @@ export default class RouteMap extends React.Component {
 
 
           
-          <Text style={styles.descriptionTextStyle}>Source: {stopname[0]}-{String(source[0])}</Text>
-          <Text style={styles.descriptionTextStyle}>Destination: {stopname[1]}-{String(source[1])}</Text>
+          <Text style={styles.descriptionTextStyle}>Source: {stopname[0]}-{this.toTwelveHours(String(source[0]))}</Text>
+          <Text style={styles.descriptionTextStyle}>Destination: {stopname[1]}-{this.toTwelveHours(String(source[1]))}</Text>
           {allStops.map((Stops, key) => (
             <View key={key} style={styles.Stops}>
               <Text style={styles.text}>{key+1}. {Stops}</Text>
