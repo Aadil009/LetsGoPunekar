@@ -101,11 +101,12 @@ export default class Home extends Component {
 		this.setState({AnswerText:null});
 		const source = this.state.source;
 		const destination = this.state.destination;
-		await fetch('http://192.168.1.7:5000/routes?src='+source+'&dest='+destination)
+		await fetch('http://192.168.43.231:5000/routes?src='+source+'&dest='+destination)
 		
 		.then((response) => response.json())
     			.then((responseJson) => {
-      				responseJson.map((element)=>routes.push(element.route));
+      				responseJson.map((element)=>{if(element.length==2)routes.push([element[0].route+' :- '+element[0].from+' to '+element[0].to+'\n',element[1].route+' :- '+element[1].from+' to '+element[0].to]);
+  else routes.push(element.route+' :- '+element.from+' to '+element.to) });
 					responseJson.map((element)=>stops.push(element.stops));
 					responseJson.map((element)=>stoplat.push(element.latitude));
 					responseJson.map((element)=>stoplong.push(element.longitude));
