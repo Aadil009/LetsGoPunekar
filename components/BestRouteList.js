@@ -16,6 +16,14 @@ export default class BestRouteList extends React.Component {
        this.state.stopsData = params.stopsData;
        console.log(this.state.jsondata);
        //remove this comment and above console.log line
+       if(this.state.jsondata===undefined){
+           return(
+               <View>
+                   <Text>Not found</Text>
+               </View>
+           );
+       }
+       
        let routesArray=[]
        let sourceArrivalTime=[]
        let destinationArrivalTime=[]

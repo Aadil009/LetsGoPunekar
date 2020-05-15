@@ -70,64 +70,90 @@ export default class Home extends Component {
 			ready: true,
 			fontLoaded: false,
 			open: true,
-			open1:true	
+			open1:true,
+			errorMessage:'',	
 		}
 	}
-
+	
 	findLoc = (inputStopName) => {
 		if(inputStopName==='' ) return [];
 		const regex = new RegExp(`${inputStopName.trim()}`, 'i');
 		const stopNames = this.state.stopNames;
 		return stopNames.filter(stopname => stopname.search(regex) >= 0);
 	}
-
-	findRoute= async () =>{
-		
-		await this.GetValueFunction(),
-		this.props.navigation.navigate('Best Routes',{routeData:this.state.routeData,stopsData:this.state.stopsData,jsondata:this.state.jsondata})
-
+	
+	include(a,x){
+		for(let i=0;i<a.length;++i){
+			if(x==a[i]){
+				return true;
+			}
+		}
+		return false;
 	}
+
+	
 
 	GetValueFunction = async () =>{
 		this.setState({
 			loading: true
-		  });
-	  
-		  
-		let routes=[];
-		let stops=[];
-		let stoplat=[];
-		let stoplong=[];
-		this.setState({AnswerText:null});
-		const source = this.state.source;
-		const destination = this.state.destination;
-		await fetch('http://192.168.1.7:5000/routes?src='+source+'&dest='+destination)
-		
-		.then((response) => response.json())
-    			.then((responseJson) => {
-      				responseJson.map((element)=>routes.push(element.route));
-					responseJson.map((element)=>stops.push(element.stops));
-					responseJson.map((element)=>stoplat.push(element.latitude));
-					responseJson.map((element)=>stoplong.push(element.longitude));
-					this.setState({jsondata:responseJson})
-      				this.setState({routeData:routes});
-					this.setState({stopsData:stops});
-					setTimeout(() => {
-						this.setState({
-						  loading: false,
-						  
-						});
-					  });
-	
-    			})
-    		.catch((error) => {
-      			console.error(error);
+		});
+			if(this.state.source==''||this.state.destination==''){
+			this.setState({
+				loading: false
 			});
+			Alert.alert("Error Message","Please enter values for To and From.");
+		}
+		else if(!this.include(stopNames.name,this.state.source) || !this.include(stopNames.name,this.state.destination) ){
+			this.setState({
+				
+				loading: false
+			});
+			Alert.alert("Error Message","Please enter valid stop names");
+		}
+		else{
+			let routes=[];
+			let stops=[];
+			let stoplat=[];
+			let stoplong=[];
+			this.setState({AnswerText:"Hello world"});
+			console.log(this.state.AnswerText);
+			const source = this.state.source;
+			const destination = this.state.destination;
+			await fetch('http://192.168.1.7:5000/routes?src='+source+'&dest='+destination)
 			
-		 }
-		 
+			.then((response) => response.json())
+					.then((responseJson) => {
+						
+						responseJson.map((element)=>routes.push(element.route));
+						responseJson.map((element)=>stops.push(element.stops));
+						responseJson.map((element)=>stoplat.push(element.latitude));
+						responseJson.map((element)=>stoplong.push(element.longitude));
+						this.setState({jsondata:responseJson})
+						this.setState({routeData:routes});
+						this.setState({stopsData:stops});
+						setTimeout(() => {
+							this.setState({
+							loading: false,
+							
+							});
+						});
+					
+						this.props.navigation.navigate('Best Routes',{routeData:this.state.routeData,stopsData:this.state.stopsData,jsondata:this.state.jsondata});
+	
+						
+					})
+				.catch((error) => {
+					console.error(error);
+					this.setState({
+						loading: false,
+						});
+						Alert.alert("Error Message","No buses found :( ");
+				});
+				
+		}
+	}	
+	render() { 
 		
-	render() {  
 		let cnt=0;
 		let deviceWidth = Dimensions.get('window').width
 		
@@ -141,9 +167,9 @@ export default class Home extends Component {
 		const stopName2 = this.findLoc(destination);
 		
 		const compareStrings = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
-		let keyCount=0;
+		
 		return (
-			<View style={StyleSheet.absoluteFillObject}>
+			<View style={{flex:1}}>
 				<Loader	loading={this.state.loading} />
 				<MapView style={StyleSheet.absoluteFillObject} 
 					showsUserLocation
@@ -157,7 +183,7 @@ export default class Home extends Component {
 					containerStyle={{backgroundColor: 'white', borderColor: '#BC8B00'}}>
 				</MapView>
 
-				<View style={{alignItems:'center' ,margin:10,}}>  
+				<View style={{alignItems:'center',flex:1 ,margin:10,}}>  
 				<Icon style={styles.icon} name="home" size={20} color="white"/>
 				<Autocomplete
 					style={styles.autocompleteRadius}
@@ -205,11 +231,12 @@ export default class Home extends Component {
 				
 
 				
-					<View style={styles.findRoute}>
+				<View style={styles.findRoute}>
 					<Button 
-						title="Find Routes" onPress={this.findRoute} color="red"
+						title="Find Routes" onPress={this.GetValueFunction} color="red"
 					/>
-					</View>
+				</View >
+		
 			</View>
 		</View>
 		);
@@ -231,7 +258,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		margin:'1%',
 		left: 0,
-		 position: 'absolute',
+		position: 'absolute',
 		right: 0,
 		top: -5,
 		zIndex: 6
@@ -258,11 +285,12 @@ const styles = StyleSheet.create({
 		flex: 1,
 		 left: 0,
 		color:'red',
-	   position: 'absolute',
+	    position: 'absolute',
 		 right: 0,
-	   top: deviceHeight/7,
+	   top: deviceHeight/6,
 	   
 	  },
+	  
 	  contentContainer: {
 		  
 	  },
