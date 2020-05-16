@@ -5,7 +5,8 @@ export default class BestRouteList extends React.Component {
     constructor() {
 		super()
 		this.state = {
-            routeData:[]
+            routeData:[],
+            AnswerText:''
         }
     }
     
@@ -16,11 +17,22 @@ export default class BestRouteList extends React.Component {
        this.state.stopsData = params.stopsData;
        console.log(this.state.jsondata);
        //remove this comment and above console.log line
+       if(this.state.jsondata===undefined){
+           return(
+               <View>
+                   <Text>Not found</Text>
+               </View>
+           );
+       }
+       
        let routesArray=[]
        let sourceArrivalTime=[]
        let destinationArrivalTime=[]
        
-        for(var i=0;i<3;++i){
+       //if(this.state.jsondata.length==0)
+       	//this.setState({AnswerText:'no routes available'});
+       
+        for(var i=0;i<this.state.jsondata.length;++i){
             routesArray[i]=this.state.jsondata[i]["route"]
             sourceArrivalTime[i]=this.state.jsondata[i]["source arrival time"]
             destinationArrivalTime[i]=this.state.jsondata[i]["destination arrival time"]
@@ -37,7 +49,8 @@ export default class BestRouteList extends React.Component {
             onPress={()=>{ 
 				console.log(key);
 			   let stopd = this.state.stopsData[this.state.routeData.indexOf(r)]
-	
+	if(this.state.jsondata.length==0)
+       	this.setState({AnswerText:'no routes available'});
 	
 				let pdata = []
                 let sdata = []

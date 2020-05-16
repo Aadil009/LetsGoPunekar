@@ -152,6 +152,10 @@ export default class RouteMap extends React.Component {
         pinColor= 'purple'
         />
         
+        {/*<MapView.Marker  coordinate={marker.latlang}>
+  <View style={styles.circle}>
+     <Text style={styles.pinText}>{marker.num}</Text>
+      </View></MapView.Marker>*/}
         <MapView.Polyline
           coordinates={markers}
           strokeWidth={4}
