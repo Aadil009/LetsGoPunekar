@@ -3,20 +3,25 @@ Hello World!
 This repository contains source code for mobile app.
 
   This mobile application is made for people who
-wish to know  timeing of buses in Pune City
+wish to know  timeing of buses in Pune City.</br>In Pune city there is organization called Pune Mahanagar Parivahan Mahamandal Ltd that is **pmpml** who runs buses as public tranport.
 
-## This is another hedaing
-**this is bold text**
-*1
-*2
-*3
-`code`
-main file in this [project is](./components/Home.js)
-- [x] this is check
-- [ ] not check
+### Problem Statement
+* Pune is metropolitical city so many
+people use PMPML service
+* Most of the people are unaware about
+bus schedule
+* People have to wait for bus and don’t
+know when bus will come
+* If bus doesn’t come on time then
+people may use other private transport
+option
+* There is need of digitalized system
 
-# Contributers are
-@Aadil009 and @mugs912
+### Technologies used
+- Front End:React Native
+- Backend:
+  - Server:Node.js
+  - Database:PSQL
 
-:+1:
->This is quote
+### contributers
+[@Aadil](https://github.com/Aadil009)
