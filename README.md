@@ -1,8 +1,8 @@
 # LetsGoPunekar
-Hello World!
+<h3>Hello World!</h3>
+</br>
 This repository contains source code for mobile app.
-
-  This mobile application is made for people who
+This mobile application is made for people who
 wish to know  timeing of buses in Pune City.</br>In Pune city there is organization called Pune Mahanagar Parivahan Mahamandal Ltd that is **pmpml** who runs buses as public tranport.
 
 ### Problem Statement
@@ -23,5 +23,7 @@ option
   - Server:Node.js
   - Database:PSQL
 
-### contributers
-[@Aadil](https://github.com/Aadil009)
+### Contributers
+* [@Aadil](https://github.com/Aadil009)
+* [@Mugdha](https://github.com/mugs912)
+* [@Vrushali](https://github.com/vrushali-d)
