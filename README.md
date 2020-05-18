@@ -23,7 +23,22 @@ option
   - Server:Node.js
   - Database:PSQL
 
+### Steps we followed while making this app
+
+
+
+###  Tasks in Project
+- [x] ~~Prototype~~
+- [x] ~~DataRefining~~ 
+- [x] ~~DataBaseCreation~~
+- [ ] Documentation
+- [ ] Show Everything in Marathi language
 ### Contributers
 * [@Aadil](https://github.com/Aadil009)
 * [@Mugdha](https://github.com/mugs912)
 * [@Vrushali](https://github.com/vrushali-d)
+
+### About us
+We are students of Savitribai Phule Pune University(SPPU)</br>
+currently studying in first year of M.Sc(Scientific Computing) at</br>
+Interdisciplinary School of Scientific Computing,Pune University.
