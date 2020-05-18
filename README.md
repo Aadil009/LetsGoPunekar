@@ -11,7 +11,7 @@ wish to know  timeing of buses in Pune City
 *2
 *3
 `code`
-main file in this [project is](../components/Home.js)
+main file in this [project is](./components/Home.js)
 - [x] this is check
 - [ ] not check
 
