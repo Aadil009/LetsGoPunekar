@@ -61,10 +61,7 @@ export default class Home extends Component {
 			source:'',
 			destination:'',
 			stopNames:stopNames.name,
-			AnswerText:'',
-			routeData:[],
-			stopsData:[],
-			jsondata:0,
+			jsonData:0,
 			loading: false,
 			data:[{long:73.6,lat:18.5}],
 			ready: true,
@@ -115,8 +112,7 @@ export default class Home extends Component {
 			let stops=[];
 			let stoplat=[];
 			let stoplong=[];
-			this.setState({AnswerText:"Hello world"});
-			console.log(this.state.AnswerText);
+			
 			const source = this.state.source;
 			const destination = this.state.destination;
 			await fetch('http://192.168.1.7:5000/routes?src='+source+'&dest='+destination)
@@ -124,22 +120,15 @@ export default class Home extends Component {
 			.then((response) => response.json())
 					.then((responseJson) => {
 						
-						responseJson.map((element)=>routes.push(element.route));
-						responseJson.map((element)=>stops.push(element.stops));
-						responseJson.map((element)=>stoplat.push(element.latitude));
-						responseJson.map((element)=>stoplong.push(element.longitude));
-						this.setState({jsondata:responseJson})
-						this.setState({routeData:routes});
-						this.setState({stopsData:stops});
+						this.setState({jsonData:responseJson})
 						setTimeout(() => {
 							this.setState({
 							loading: false,
 							
 							});
 						});
-					
-						this.props.navigation.navigate('Best Routes',{routeData:this.state.routeData,stopsData:this.state.stopsData,jsondata:this.state.jsondata});
-	
+						
+						this.props.navigation.navigate('Best Routes',{jsonData:this.state.jsonData});
 						
 					})
 				.catch((error) => {
