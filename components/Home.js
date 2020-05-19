@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";  
 import MapView from 'react-native-maps'
-import {Dimensions, ActivityIndicator} from 'react-native';
+import {Dimensions, ActivityIndicator ,Image} from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Loader from './Loader'
@@ -225,7 +225,19 @@ export default class Home extends Component {
 						title="Find Routes" onPress={this.GetValueFunction} color="red"
 					/>
 				</View >
-		
+				<View style={styles.info}>
+				<Button  title="info" onPress={()=>{
+					this.props.navigation.navigate('Information')
+				}} />
+				{
+				/*<TouchableOpacity onPress={()=>{
+					this.props.navigation.navigate('Information')
+				}}>
+					<Image style={{width:25,height:25}} source={require('../assets/info1.jpeg')}/>	
+				</TouchableOpacity>
+				*/}
+				</View>
+				
 			</View>
 		</View>
 		);
@@ -279,7 +291,15 @@ const styles = StyleSheet.create({
 	   top: deviceHeight/6,
 	   
 	  },
-	  
+	  info: {
+		flex: 1,
+		//left: 0,
+		//color:'red',
+	    position: 'absolute',
+		//right: 0,
+	    marginTop: deviceHeight/1.35,
+	   
+	  },
 	  contentContainer: {
 		  
 	  },
