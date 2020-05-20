@@ -1,0 +1,48 @@
+                  List of relations
+ Schema |         Name          |   Type   |  Owner   
+--------+-----------------------+----------+----------
+ public | area                  | table    | vrushali
+ public | attendance_record     | table    | vrushali
+ public | batch                 | table    | vrushali
+ public | batch_sub             | table    | vrushali
+ public | brts                  | table    | vrushali
+ public | brtsnonbrts           | view     | vrushali
+ public | brtstops              | table    | vrushali
+ public | bus_routes            | table    | vrushali
+ public | bus_routes_brid_seq   | sequence | vrushali
+ public | bus_stops             | table    | vrushali
+ public | bus_stops_stop_id_seq | sequence | vrushali
+ public | busstops              | table    | vrushali
+ public | busstops1             | table    | vrushali
+ public | busstops2             | table    | vrushali
+ public | busstops3             | table    | vrushali
+ public | bye                   | table    | vrushali
+ public | cities                | table    | vrushali
+ public | class                 | table    | vrushali
+ public | competition           | table    | vrushali
+ public | dept                  | table    | vrushali
+ public | doctor                | table    | vrushali
+ public | emp                   | table    | vrushali
+ public | hello                 | table    | vrushali
+ public | hobbies               | table    | vrushali
+ public | hospital              | table    | vrushali
+ public | location              | table    | vrushali
+ public | nonbrts               | table    | vrushali
+ public | per_hob               | table    | vrushali
+ public | person                | table    | vrushali
+ public | route_master          | table    | vrushali
+ public | route_master_rmid_seq | sequence | vrushali
+ public | stud                  | table    | vrushali
+ public | stud_com              | table    | vrushali
+ public | student               | table    | vrushali
+ public | subject               | table    | vrushali
+ public | teacher               | table    | vrushali
+ public | test                  | table    | vrushali
+ public | test2                 | table    | vrushali
+ public | timelogin             | table    | vrushali
+ public | timelogin_index_seq   | sequence | vrushali
+ public | tsetdate              | table    | vrushali
+ public | tsetdate_id_seq       | sequence | vrushali
+ public | weather               | table    | vrushali
+(43 rows)
+
