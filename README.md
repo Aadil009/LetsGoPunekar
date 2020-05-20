@@ -35,6 +35,14 @@ database(PSQL) will executes these queries and give result back to server</br>
 server returns result as json object</br>
 React Native app will use json data to render best route list,time for source and destination stop and presentaion of route on Map.
 
+### Parts of App
+* Front end:**React Native**
+* Server:**Node.js**
+* Database:**postgreSQL**
+
+#### Database:**postgreSQL**
+We downloaded data of pmpml from their website
+
 
 ###  Tasks in Project
 - [x] ~~Prototype~~
