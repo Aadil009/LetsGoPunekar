@@ -2,14 +2,17 @@ import React,{ Component} from 'react';
 import { StyleSheet, Text, View,ScrollView,TouchableOpacity,TouchableHighlight} from 'react-native';
 
 export default class BestRouteList extends React.Component {
-    constructor() {
-		super()
+    constructor(props) {
+        super(props)
+        const params = this.props.route.params;
 		this.state = {
-            routeData:[]
+            routeData:[],
+            jsonData:params.jsonData,
         }
     }
     
     render(){
+<<<<<<< HEAD
        const params = this.props.route.params;
        this.state.routeData = params.routeData;
        this.state.jsondata = params.jsondata;
@@ -55,49 +58,56 @@ export default class BestRouteList extends React.Component {
 				  </TouchableHighlight>
                   
         )
+=======
+    //console.log(this.state.jsonData);
+        if(this.state.jsonData.length===0){
+           return(
+               <View>
+                   <Text>Not found</Text>
+               </View>
+           );
+>>>>>>> 19ce29015886ec6d22e209d69b395062efd1a4b9
+        }
+        let textEles=this.state.jsonData.map((jsonElement,key)=> {
+            return(
+                <TouchableHighlight style={styles.touchableStyle} underlayColor='rgb(255,255,255)'
+                key={key} 
+                onPress={()=>{ 
+                    let stopData=jsonElement["stops"];
+                    let stopCoordinates = []
+                    let stopNames = []
+                    for(let i=0;i<stopData.length;i++) {
+                        stopCoordinates.push({lat:stopData[i].latitude,long:stopData[i].longitude}) //push latitude ,longitude in pdata which are on (2,3).(5,6)....index
+                    } 
+            
+                    for(let i=0;i<stopData.length;i++) {
+                        stopNames.push({stopname:stopData[i].stop}) //push latitude ,longitude in pdata which are on (2,3).(5,6)....index
+                    } 
+                            
+                    this.props.navigation.navigate('RouteMap',{data:{rid:jsonElement["route"],coordinates:stopCoordinates,names:stopNames,sourceArrivalTime:jsonElement["source arrival time"],destinationArrivalTime:jsonElement["destination arrival time"]}})
+                    }
+                }>
+                        
+                    <Text style={styles.listText}>{jsonElement["route"]+":"+jsonElement["stops"][0].stop+" To "+jsonElement["stops"][jsonElement["stops"].length-1].stop}</Text>
+                </TouchableHighlight>
+                        
+            )
         }
         );
-        
-        /*this.state.routeData.map((r,key)=> {   
-              
-            return(<View style={styles.touchableStyle} underlayColor='rgb(255,255,255)'
-             key={key} 
-                onPress={()=>{ 
-                    let stopd = this.state.stopsData[this.state.routeData.indexOf(r)]
-                    let pdata = []
-                    let sdata = []
-                    let sadata=this.state.jsondata[this.state.routeData.indexOf(r)]
-                    for(var i=0;i<stopd.length;i++) {
-                        pdata.push({lat:stopd[i].latitude,long:stopd[i].longitude}) //push latitude ,longitude in pdata which are on (2,3).(5,6)....index
-                    } 
-                    for(var i=0;i<stopd.length;i++) {
-                        sdata.push({stopname:stopd[i].stop}) //push latitude ,longitude in pdata which are on (2,3).(5,6)....index
-                    } 
-                    this.props.navigation.navigate('RouteMap',{pdata:{pdata:pdata,sdata:sdata,satime:sadata["source arrival time"],datime:sadata["destination arrival time"]}})		
-                }}>
-                      
-                      <Text style={styles.listText}>{r+":"}</Text>
-                                            </View>
-                      
-            )
-            }
-            );*/
-
+         
         return(
-
             <View style={styles.textoutputStyle}>
-            <ScrollView >
-                <Text style={{color:'white'}}>{this.state.AnswerText}</Text>
-                {textEles}
-            </ScrollView> 
-        </View>
+                <ScrollView >
+                    {textEles}
+                </ScrollView> 
+            </View>
         )
     }
 }
 const styles = StyleSheet.create({  
 	container: {  
-    		flex: 1,
-			backgroundColor: 'red'
+   		flex: 1,
+		backgroundColor: 'red'
     },
     touchableStyle:{
         justifyContent:"center",

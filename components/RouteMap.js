@@ -3,16 +3,12 @@ import { StyleSheet, Text, View, Animated, Button, TouchableOpacity,ScrollView, 
 import MapView from 'react-native-maps';
 
 let deviceWidth = Dimensions.get('window').width
-    let deviceHeight = Dimensions.get('window').height
+let deviceHeight = Dimensions.get('window').height
 
 
 export default class RouteMap extends React.Component {
-   state = {
-   data:[{long:73.6,lat:18.5}],
-   animation: new Animated.Value(0),
-   };
-
-   handleOpen = () => {
+   
+  handleOpen = () => {
     Animated.timing(this.state.animation, {
       toValue: 1,
       duration: 300,
@@ -30,16 +26,21 @@ export default class RouteMap extends React.Component {
   };
 
 
-   posdata=0;
-   componentDidMount() {
-   }
+  posdata=0;
+  componentDidMount() {
+  }
 
-   constructor() {
-   super()
-   }
+  constructor() {
+    super();
+    this.state = {
+      data:[{long:73.6,lat:18.5}],
+      animation: new Animated.Value(0),
+    };
+  }
  
 
 
+<<<<<<< HEAD
  toTwelveHoursFormat(str){
 	let tokens=str.split(":");
 	let hrs=parseInt(tokens[0]);
@@ -49,9 +50,20 @@ export default class RouteMap extends React.Component {
 	tokens[0]=hrs;
 	let inTwelveHrs=tokens.join(":");
 	return inTwelveHrs;
+=======
+  toTwelveHours(str){
+	  let tokens=str.split(":");
+	  let hrs=parseInt(tokens[0]);
+	  if(hrs>12){
+		  hrs=hrs%12;
+	  }
+	  tokens[0]=hrs;
+	  let inTwelveHrs=tokens.join(":");
+	  return inTwelveHrs;
+>>>>>>> 19ce29015886ec6d22e209d69b395062efd1a4b9
   }
 
-   render() {
+  render() {
     
     const screenHeight = Dimensions.get("window").height;
     const backdrop = {
@@ -87,10 +99,11 @@ export default class RouteMap extends React.Component {
 
 
 
-   const params = this.props.route.params;
-    pdata = params.pdata.pdata;
-    sdata= params.pdata.sdata;
+  const params = this.props.route.params;
+  let stopCoordinates = params.data.coordinates;
+  let stopNames= params.data.names;
     
+<<<<<<< HEAD
     var routesArray=[]
     var sourceArrivalTime=[]
     var destinationArrivalTime=[]
@@ -112,32 +125,46 @@ export default class RouteMap extends React.Component {
           };
           allStops[i]=sdata[i].stopname;
       }
+=======
+   
+  let source= [params.data.sourceArrivalTime,params.data.destinationArrivalTime];
+  let inputMarkers = [{longitude:0, latitude:0}]
+  let mapMarkers = [{longitude:0, latitude:0}]
+
+  let mapStopName= []
+  let allStops= []
+
+  for(let i=0;i<stopCoordinates.length;i++) {
+    inputMarkers[i] = {
+      longitude: Number(stopCoordinates[i].long),
+      latitude: Number(stopCoordinates[i].lat)
+    };
+    allStops[i]=stopNames[i].stopname;
+  }
+>>>>>>> 19ce29015886ec6d22e209d69b395062efd1a4b9
 
       
 
-                markerss[0]=markers[0];
-     markerss[1]=markers[markers.length-1]
-     stopname[0]=sdata[0].stopname
-     stopname[1]=sdata[sdata.length-1].stopname
+  mapMarkers[0]=inputMarkers[0];
+  mapMarkers[1]=inputMarkers[inputMarkers.length-1]
+  mapStopName[0]=stopNames[0].stopname
+  mapStopName[1]=stopNames[stopNames.length-1].stopname
       
-    
-
-
-     
-   return (
-     <View style={styles.container}>
-        <MapView style={styles.map} initialRegion={{
-          latitude:Number(pdata[0].lat),
-          longitude:Number(pdata[0].long),
-          latitudeDelta: 0.09,
-          longitudeDelta: 0.09,
-        }}
+  return (
+    <View style={styles.container}>
+      <MapView style={styles.map} initialRegion={{
+        latitude:Number(stopCoordinates[0].lat),
+        longitude:Number(stopCoordinates[0].long),
+        latitudeDelta: 0.09,
+        longitudeDelta: 0.09,
+      }}
         
-        showsUserLocation={false}>
+      showsUserLocation={false}>
         
-        <MapView.Marker 
-        coordinate={markerss[0]}
+      <MapView.Marker 
+        coordinate={mapMarkers[0]}
         pinColor='purple'
+<<<<<<< HEAD
         title={String(stopname[0])}
         description={'Time:'+this.toTwelveHoursFormat(String(source[0]))}
         />
@@ -145,27 +172,26 @@ export default class RouteMap extends React.Component {
         coordinate={markerss[1]}
         title={String(stopname[1])}
         description={'Time:'+this.toTwelveHoursFormat(String(source[1]))}
+=======
+        title={String(mapStopName[0])}
+        description={'Time:'+this.toTwelveHours(String(source[0]))}
+      />
+      <MapView.Marker 
+        coordinate={mapMarkers[1]}
+        title={String(mapStopName[1])}
+        description={'Time:'+this.toTwelveHours(String(source[1]))}
+>>>>>>> 19ce29015886ec6d22e209d69b395062efd1a4b9
         pinColor= 'purple'
-        />
+      />
         
-        <MapView.Polyline
-          coordinates={markers}
-          strokeWidth={4}
-          strokeColor="rgba(0,0,255,0.5)"/>
-
-
-
-
-
-
-
-      
-        {
-      }
-
-
+      <MapView.Polyline
+        coordinates={inputMarkers}
+        strokeWidth={4}
+        strokeColor="rgba(0,0,255,0.5)"
+      />
 
       </MapView>
+<<<<<<< HEAD
       <View style={styles.container}>
         <TouchableOpacity style={styles.touchableStyle} onPress={this.handleOpen}>
           <Button title='Route Description' onPress={this.handleOpen} />
@@ -198,6 +224,35 @@ export default class RouteMap extends React.Component {
 
 
             </Animated.View>
+=======
+        <View style={styles.container}>
+          <TouchableOpacity style={styles.touchableStyle} onPress={this.handleOpen}>
+            <Button title='Route Description' onPress={this.handleOpen} />
+          </TouchableOpacity>
+
+          <Animated.View style={[StyleSheet.absoluteFill, styles.cover, backdrop]}>
+            <View style={[styles.sheet]}>
+              <Animated.View style={[styles.popup, slideUp]}>
+                <TouchableOpacity onPress={this.handleClose}>
+                  <Text>Close</Text>
+                </TouchableOpacity>
+                <ScrollView style={styles.scroll}>
+                  <Text style={styles.descriptionTextStyle}>Source: {mapStopName[0]}-{this.toTwelveHours(String(source[0]))}</Text>
+                  <Text style={styles.descriptionTextStyle}>Destination: {mapStopName[1]}-{this.toTwelveHours(String(source[1]))}</Text>
+                  {
+                    allStops.map((Stops, key) => (
+                      <View key={key} style={styles.Stops}>
+                        <Text style={styles.text}>{key+1}. {Stops}</Text>
+                        <View style={styles.separator} />
+                      </View>
+                      )
+                    )
+                  }
+                </ScrollView>
+
+
+              </Animated.View>
+>>>>>>> 19ce29015886ec6d22e209d69b395062efd1a4b9
           </View>
         </Animated.View>
       </View>
