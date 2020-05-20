@@ -1,6 +1,6 @@
 # LetsGoPunekar
 <h3>Hello World!</h3>
-</br>
+
 This repository contains source code for mobile app.
 This mobile application is made for people who
 wish to know  timeing of buses in Pune City.</br>In Pune city there is organization called Pune Mahanagar Parivahan Mahamandal Ltd that is **pmpml** who runs buses as public tranport.
@@ -25,6 +25,15 @@ option
 
 ### Steps we followed while making this app
 
+#### General working and data flow in app
+There is a front end written in react native which takes input from user.</br>
+Input is From(Source Stop) and To(Destination Stop)</br>
+Then it requests Server for data</br>
+Node server takes input(i.e request from react native app)</br>
+And fires query on database</br>
+database(PSQL) will executes these queries and give result back to server</br>
+server returns result as json object</br>
+React Native app will use json data to render best route list,time for source and destination stop and presentaion of route on Map.
 
 
 ###  Tasks in Project
