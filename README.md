@@ -42,6 +42,13 @@ React Native app will use json data to render best route list,time for source an
 
 #### Database:**postgreSQL**
 We downloaded data of pmpml from their website which are [these files](./Database/Original)
+We have made 4 tables out of it namely
+* stops: This table contains unique stops according to stop name and latitude and longitude
+* routes: This table contains route_id,stop_id,stop_sequence and stage 
+* routemaster: Route id with description
+* arrival time: Arrival time for bus_stop for each trip
+Here is link to [database Schema]()
+
 
 
 ###  Tasks in Project
