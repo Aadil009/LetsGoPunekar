@@ -1,0 +1,67 @@
+                                            Table "public.stops"
+    Column     |            Type             | Collation | Nullable |                  Default                   
+---------------+-----------------------------+-----------+----------+--------------------------------------------
+ stop_id       | integer                     |           | not null | nextval('stops_stop_id_seq'::regclass)
+ stop_name     | character varying(50)       |           | not null | 
+ latitude      | double precision            |           | not null | 
+ longitude     | double precision            |           | not null | 
+ last_modified | timestamp without time zone |           |          | CURRENT_TIMESTAMP
+Indexes:
+    "stops_pkey" PRIMARY KEY, btree (stop_id)
+Referenced by:
+    TABLE "arrivaltime" CONSTRAINT "arrivaltime_stop_id_fkey" FOREIGN KEY (stop_id) REFERENCES bus_stops(stop_id) ON UPDATE CASCADE ON DELETE CASCADE
+    TABLE "routes" CONSTRAINT "routes_stop_id_fkey" FOREIGN KEY (stop_id) REFERENCES bus_stops(stop_id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+
+                                           Table "public.routes"
+    Column     |            Type             | Collation | Nullable |                 Default                  
+---------------+-----------------------------+-----------+----------+------------------------------------------
+ brid          | integer                     |           | not null | nextval('routes_brid_seq'::regclass)
+ route_id      | character varying(10)       |           | not null | 
+ stop_id       | integer                     |           | not null | 
+ stop_seq      | integer                     |           | not null | 
+ stage         | integer                     |           |          | 
+ last_modified | timestamp without time zone |           |          | CURRENT_TIMESTAMP
+Indexes:
+    "routes_pkey" PRIMARY KEY, btree (route_id, stop_id, stop_seq)
+Foreign-key constraints:
+    "routes_route_id_fkey" FOREIGN KEY (route_id) REFERENCES route_master(route_id) ON UPDATE CASCADE ON DELETE CASCADE
+    "routes_stop_id_fkey" FOREIGN KEY (stop_id) REFERENCES bus_stops(stop_id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+
+                                              Table "public.route_master"
+       Column        |            Type             | Collation | Nullable |                  Default                   
+---------------------+-----------------------------+-----------+----------+--------------------------------------------
+ rmid                | integer                     |           | not null | nextval('route_master_rmid_seq'::regclass)
+ route_type          | character varying(20)       |           | not null | 
+ route_id            | character varying(10)       |           | not null | 
+ source_stop_id      | integer                     |           | not null | 
+ destination_stop_id | integer                     |           | not null | 
+ last_modified       | timestamp without time zone |           |          | CURRENT_TIMESTAMP
+Indexes:
+    "route_master_pkey" PRIMARY KEY, btree (route_id)
+Referenced by:
+    TABLE "arrivaltime" CONSTRAINT "arrivaltime_route_id_fkey" FOREIGN KEY (route_id) REFERENCES route_master(route_id) ON UPDATE CASCADE ON DELETE CASCADE
+    TABLE "routes" CONSTRAINT "routes_route_id_fkey" FOREIGN KEY (route_id) REFERENCES route_master(route_id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+
+                                           Table "public.arrivaltime"
+    Column     |            Type             | Collation | Nullable |                  Default                  
+---------------+-----------------------------+-----------+----------+-------------------------------------------
+ srno          | integer                     |           | not null | nextval('arrivaltime_srno_seq'::regclass)
+ route_id      | character varying(10)       |           |          | 
+ trip_id       | character varying(20)       |           |          | 
+ stop_seq      | integer                     |           | not null | 
+ stop_id       | integer                     |           |          | 
+ arrivaltime   | time without time zone      |           |          | 
+ last_modified | timestamp without time zone |           |          | CURRENT_TIMESTAMP
+Foreign-key constraints:
+    "arrivaltime_route_id_fkey" FOREIGN KEY (route_id) REFERENCES route_master(route_id) ON UPDATE CASCADE ON DELETE CASCADE
+    "arrivaltime_stop_id_fkey" FOREIGN KEY (stop_id) REFERENCES bus_stops(stop_id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+
+
