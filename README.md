@@ -47,7 +47,17 @@ We have made 4 tables out of it namely
 * routes: This table contains route_id,stop_id,stop_sequence and stage 
 * routemaster: Route id with description
 * arrival time: Arrival time for bus_stop for each trip
+
 Here is link to [database Schema](./Database/schema.txt)
+
+To make this database from original [excel files](./Database/Original)</br>
+We used folling procedure we used Python scripts to filter data</br>
+For table *stops*
+* First we have sorted entries in file routeMappingEnglish alphabetically 
+* Then we extracted stops with unique fields of(name,latitude,longitude)
+* Stored data into [new file]() 
+* imported this file into psql database with sequencially generated primary key
+
 
 
 
