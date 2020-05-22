@@ -47,7 +47,7 @@ We have made 4 tables out of it namely
 * routes: This table contains route_id,stop_id,stop_sequence and stage 
 * routemaster: Route id with description
 * arrival time: Arrival time for bus_stop for each trip
-Here is link to [database Schema]()
+Here is link to [database Schema](./Database/schema.txt)
 
 
 
