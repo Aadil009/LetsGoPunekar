@@ -55,7 +55,7 @@ We used folling procedure we used Python scripts to filter data</br>
 For table *stops*
 * First we have sorted entries in file routeMappingEnglish alphabetically 
 * Then we extracted stops with unique fields of(name,latitude,longitude)
-* Stored data into [new file]() 
+* Stored data into [new file](./Database/Filtered/latlong.csv) 
 * imported this file into psql database with sequencially generated primary key
 
 
