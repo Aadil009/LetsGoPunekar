@@ -5,8 +5,7 @@ export default class BestRouteList extends React.Component {
     constructor() {
 		super()
 		this.state = {
-            routeData:[],
-            AnswerText:''
+            routeData:[]
         }
     }
     
@@ -15,12 +14,12 @@ export default class BestRouteList extends React.Component {
        this.state.routeData = params.routeData;
        this.state.jsondata = params.jsondata;
        this.state.stopsData = params.stopsData;
-       console.log(this.state.jsondata);
+       //console.log(this.state.jsondata);
        //remove this comment and above console.log line
-       if(this.state.jsondata===undefined){
+       if(this.state.jsondata.length==0){
            return(
-               <View>
-                   <Text>Not found</Text>
+               <View style={{justifyContent:'center',alignItems:'center',flex:1}}>
+                   <Text>No routes available at this moment...</Text>
                </View>
            );
        }
@@ -29,14 +28,19 @@ export default class BestRouteList extends React.Component {
        let sourceArrivalTime=[]
        let destinationArrivalTime=[]
        
-       //if(this.state.jsondata.length==0)
-       	//this.setState({AnswerText:'no routes available'});
+       
        
         for(var i=0;i<this.state.jsondata.length;++i){
+        if(this.state.jsondata[i].length==2){
+            routesArray[i]=[this.state.jsondata[i][0]["route"],this.state.jsondata[i][1]["route"]]
+            sourceArrivalTime[i]=[this.state.jsondata[i][0]["source_arrival_time"],this.state.jsondata[i][1]["source_arrival_time"]]
+            destinationArrivalTime[i]=[this.state.jsondata[i][0]["destination_arrival_time"],this.state.jsondata[i][1]["destination_arrival_time"]]
+            }
+        else{
             routesArray[i]=this.state.jsondata[i]["route"]
-            sourceArrivalTime[i]=this.state.jsondata[i]["source arrival time"]
-            destinationArrivalTime[i]=this.state.jsondata[i]["destination arrival time"]
-            
+            sourceArrivalTime[i]=this.state.jsondata[i]["source_arrival_time"]
+            destinationArrivalTime[i]=this.state.jsondata[i]["destination_arrival_time"]
+            }
 
         }
         //console.log(sourceArrivalTime);
@@ -47,21 +51,53 @@ export default class BestRouteList extends React.Component {
         return(<TouchableHighlight style={styles.touchableStyle} underlayColor='rgb(255,255,255)'
          key={key} 
             onPress={()=>{ 
-				console.log(key);
+				//console.log(key);
 			   let stopd = this.state.stopsData[this.state.routeData.indexOf(r)]
-	if(this.state.jsondata.length==0)
-       	this.setState({AnswerText:'no routes available'});
+			   //console.log('stopd=',stopd);
+			   //console.log(typeof stopd[0]);
+			   //console.log(stopd.length);
+	
 	
 				let pdata = []
                 let sdata = []
+                let sdata1=[]
+                let sdata2=[]
+                let pdata1=[]
+                let pdata2=[]
                 
 				let sadata=this.state.jsondata[this.state.routeData.indexOf(r)]
-				for(var i=0;i<stopd.length;i++) {
-					pdata.push({lat:stopd[i].latitude,long:stopd[i].longitude}) //push latitude ,longitude in pdata which are on (2,3).(5,6)....index
-				} 
-				for(var i=0;i<stopd.length;i++) {
-					sdata.push({stopname:stopd[i].stop}) //push latitude ,longitude in pdata which are on (2,3).(5,6)....index
-				} 
+				
+				if(stopd.length==2)
+				{
+					for(var i=0;i<stopd[0].length;i++)
+						pdata1.push({lat:stopd[0][i].latitude,long:stopd[0][i].longitude})
+					for(var i=0;i<stopd[1].length;i++)
+						pdata2.push({lat:stopd[1][i].latitude,long:stopd[1][i].longitude})
+					pdata.push(pdata1,pdata2)
+				}
+				else{ 
+				for(var i=0;i<stopd.length;i++) 
+					pdata.push({lat:stopd[i].latitude,long:stopd[i].longitude})
+					} 
+				
+				
+				if(stopd.length==2)
+				{
+					for(var i=0;i<stopd[0].length;i++)
+						sdata1.push({stopname:stopd[0][i].stop})
+					for(var i=0;i<stopd[1].length;i++)
+						sdata2.push({stopname:stopd[1][i].stop})
+					sdata.push(sdata1,sdata2)
+				}
+				else{ 
+				for(var i=0;i<stopd.length;i++) 
+					sdata.push({stopname:stopd[i].stop})
+					} 
+			//push latitude ,longitude in pdata which are on (2,3).(5,6)....index
+				
+				if(sourceArrivalTime[key].length==2)
+				 this.props.navigation.navigate('RouteMap',{pdata:{pdata:pdata,sdata:sdata,satime:[sourceArrivalTime[key][0],sourceArrivalTime[key][1]],datime:[destinationArrivalTime[key][0],destinationArrivalTime[key][1]],sourceArrivalTime:sourceArrivalTime,destinationArrivalTime:destinationArrivalTime,routesArray:routesArray}})		
+				else
 				this.props.navigation.navigate('RouteMap',{pdata:{pdata:pdata,sdata:sdata,satime:sourceArrivalTime[key],datime:destinationArrivalTime[key],sourceArrivalTime:sourceArrivalTime,destinationArrivalTime:destinationArrivalTime,routesArray:routesArray}})		
 			}}>
 				  
@@ -72,30 +108,7 @@ export default class BestRouteList extends React.Component {
         }
         );
         
-        /*this.state.routeData.map((r,key)=> {   
-              
-            return(<View style={styles.touchableStyle} underlayColor='rgb(255,255,255)'
-             key={key} 
-                onPress={()=>{ 
-                    let stopd = this.state.stopsData[this.state.routeData.indexOf(r)]
-                    let pdata = []
-                    let sdata = []
-                    let sadata=this.state.jsondata[this.state.routeData.indexOf(r)]
-                    for(var i=0;i<stopd.length;i++) {
-                        pdata.push({lat:stopd[i].latitude,long:stopd[i].longitude}) //push latitude ,longitude in pdata which are on (2,3).(5,6)....index
-                    } 
-                    for(var i=0;i<stopd.length;i++) {
-                        sdata.push({stopname:stopd[i].stop}) //push latitude ,longitude in pdata which are on (2,3).(5,6)....index
-                    } 
-                    this.props.navigation.navigate('RouteMap',{pdata:{pdata:pdata,sdata:sdata,satime:sadata["source arrival time"],datime:sadata["destination arrival time"]}})		
-                }}>
-                      
-                      <Text style={styles.listText}>{r+":"}</Text>
-                                            </View>
-                      
-            )
-            }
-            );*/
+        
 
         return(
 

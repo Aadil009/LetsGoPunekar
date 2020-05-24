@@ -114,7 +114,9 @@ export default class Home extends Component {
 			let routes=[];
 			let stops=[];
 			let stoplat=[];
+			let stoplat1=[];
 			let stoplong=[];
+			let stoplong1=[];
 			//this.setState({AnswerText:"Hello world"});
 			//console.log(this.state.AnswerText);
 			const source = this.state.source;
@@ -131,11 +133,31 @@ export default class Home extends Component {
 							else
 								routes.push(element.route+' :- '+element.from+' to '+element.to);
 						});
-						responseJson.map((element)=>stops.push(element.stops));
-						responseJson.map((element)=>stoplat.push(element.latitude));
-						responseJson.map((element)=>stoplong.push(element.longitude));
+						responseJson.map((element)=>{
+						if(element.length==2)
+							stops.push([element[0].stops,element[1].stops]);
+						else
+							stops.push(element.stops);
+						});
+						responseJson.map((element)=>{
+						if(element.length==2){
+							stoplat.push(element[0].latitude);
+							stoplat.push(element[1].latitude);
+						}
+						else
+							stoplat.push(element.latitude);
+						});
+						responseJson.map((element)=>{
+						if(element.length==2){
+							stoplong.push(element[0].longitude);
+							stoplong1.push(element[1].longitude);
+						}
+						else
+							stoplong.push(element.longitude);
+						});
 						this.setState({jsondata:responseJson})
 						this.setState({routeData:routes});
+						//console.log('stops=',stops);
 						this.setState({stopsData:stops});
 						setTimeout(() => {
 							this.setState({
