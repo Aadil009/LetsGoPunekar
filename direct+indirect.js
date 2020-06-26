@@ -69,7 +69,6 @@ app.get('/routes',(req,response)=>{
                                     console.log('rid stops = ',rid_stops);
                                     console.log('length of rid stops = ',rid_stops.length);
                                     response.send(rid_stops);
-                                    //response.status(500).send('no routes available for given source and destination at this time');
                                 }
                                 all_routes.sort(function(a,b){
                                     if(a.length==2)
@@ -185,7 +184,6 @@ app.get('/routes',(req,response)=>{
                                 console.log('rid stops = ',rid_stops);
                                 console.log('length of rid stops = ',rid_stops.length);
                                 response.send(rid_stops);
-                                //response.status(500).send('no routes available for given source and destination at this time');
                             }
                             all_routes.sort(function(a,b){
                                 if(a.length==2)

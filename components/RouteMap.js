@@ -108,7 +108,9 @@ export default class RouteMap extends React.Component {
     var source= [params.pdata.satime,params.pdata.datime];
      //console.log(source)
    var markers = [{longitude:0, latitude:0}]
-   var markerss = [{longitude:0, latitude:0}]
+   var markers1 = [{longitude:0, latitude:0}]
+   var markers2 = [{longitude:0, latitude:0}]
+   var markerss = []
 
    var stopname= []
    var allStops= []
@@ -118,13 +120,24 @@ export default class RouteMap extends React.Component {
    if(pdata.length==2)
    {
    	for(var i=0;i<pdata[0].length;i++){
-     markers[i] = {longitude: Number(pdata[0][i].long),
+     markers1[i] = {longitude: Number(pdata[0][i].long),
            latitude: Number(pdata[0][i].lat)
           };
           allStops[i]=sdata[0][i].stopname;
          }
-        for(var i=0;i<pdata[1].length;i++)
-        	allStops1[i]=sdata[1][i].stopname;	
+        for(var i=0;i<pdata[1].length;i++){
+          markers2[i] = {longitude: Number(pdata[1][i].long),
+            latitude: Number(pdata[1][i].lat)
+           };
+          allStops1[i]=sdata[1][i].stopname;	
+        }
+        markers1.map((ele)=>markers.push(ele));
+    markers2.map((ele)=>markers.push(ele));
+    markers=markers.slice(1)
+    console.log(markers)
+    markerss[0]=markers1[0];
+     markerss[1]=markers2[markers2.length-1];
+     markerss[2]=markers2[0];
    }
    else{
    	for(var i=0;i<pdata.length;i++){
@@ -132,17 +145,20 @@ export default class RouteMap extends React.Component {
            latitude: Number(pdata[i].lat)
           };
           allStops[i]=sdata[i].stopname;
-         }}
-      
-
-      
-
-                markerss[0]=markers[0];
+         }
+         markerss[0]=markers[0];
      markerss[1]=markers[markers.length-1]
+    }
+    
+      
+
+      
+
+            
      if(sdata.length==2)
      {
-     	stopname[0]=sdata[0][0].stopname
-     	stopname[1]=sdata[0][sdata[0].length-1].stopname
+       stopname[0]=sdata[0][0].stopname
+       stopname[1]=sdata[0][sdata[0].length-1].stopname
      	stopname[2]=sdata[1][0].stopname
      stopname[3]=sdata[1][sdata[1].length-1].stopname
      }
@@ -173,12 +189,20 @@ export default class RouteMap extends React.Component {
         coordinate={markerss[0]}
         pinColor='purple'
         title={String(stopname[0])}
-        description={'Time:'+this.toTwelveHours(String(source[0]))}
+        description={'Time:'+this.toTwelveHours(String(source[0][0]))}
         />
+        
+        <MapView.Marker 
+        coordinate={markerss[2]}
+        pinColor='yellow'
+        title={String(stopname[2])}
+        //description={'Time:'+this.toTwelveHours(String(source[0][0]))}
+        />
+        
         <MapView.Marker 
         coordinate={markerss[1]}
-        title={String(stopname[1])}
-        description={'Time:'+this.toTwelveHours(String(source[1]))}
+        title={String(stopname[3])}
+        description={'Time:'+this.toTwelveHours(String(source[1][1]))}
         pinColor= 'purple'
         />
         
@@ -202,7 +226,7 @@ export default class RouteMap extends React.Component {
               </TouchableOpacity>
           <ScrollView style={styles.scroll}>
           	<Text style={styles.descriptionTextStyle}>Source: {stopname[0]}-{this.toTwelveHours(String(source[0][0]))}</Text>
-          <Text style={styles.descriptionTextStyle}>Destination: {stopname[1]}-{this.toTwelveHours(String(source[1][0]))}</Text>
+          <Text style={styles.descriptionTextStyle}>Between Stop: {stopname[1]}-{this.toTwelveHours(String(source[1][0]))}</Text>
           {allStops.map((Stops, key) => (
             <View key={key} style={styles.Stops}>
               <Text style={styles.text}>{key+1}. {Stops}</Text>
@@ -210,7 +234,7 @@ export default class RouteMap extends React.Component {
             </View>
           ))}
           
-          <Text style={styles.descriptionTextStyle}>Source: {stopname[2]}-{this.toTwelveHours(String(source[0][1]))}</Text>
+          <Text style={styles.descriptionTextStyle}>Between Stop: {stopname[2]}-{this.toTwelveHours(String(source[0][1]))}</Text>
           <Text style={styles.descriptionTextStyle}>Destination: {stopname[3]}-{this.toTwelveHours(String(source[1][1]))}</Text>
           {allStops1.map((Stops, key) => (
             <View key={key} style={styles.Stops}>
