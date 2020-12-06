@@ -101,7 +101,7 @@ export default class Home extends Component {
 		this.setState({AnswerText:null});
 		const source = this.state.source;
 		const destination = this.state.destination;
-		await fetch('http://192.168.1.7:5000/routes?src='+source+'&dest='+destination)
+		await fetch('http://192.168.1.41:5000/routes?src='+source+'&dest='+destination)
 		
 		.then((response) => response.json())
     			.then((responseJson) => {
@@ -162,6 +162,7 @@ export default class Home extends Component {
 				<Autocomplete
 					style={styles.autocompleteRadius}
 					containerStyle={styles.autocompleteContainer}
+					
 					data={ stopName1.length == 1 && compareStrings(source, stopName1[0])?[]:stopName1}
 					defaultValue={source}
 					hideResults={!this.state.open}
@@ -205,11 +206,18 @@ export default class Home extends Component {
 				
 
 				
-					<View style={styles.findRoute}>
+					{/* <View style={styles.findRoute}>
 					<Button 
 						title="Find Routes" onPress={this.findRoute} color="red"
 					/>
-					</View>
+					</View> */}
+					<TouchableOpacity onPress={this.findRoute} style={{marginTop:20, width:'40%'}} >
+						<View style={styles.button} >
+							<Text style={styles.buttonText} >
+							Find Routes
+							</Text>
+						</View>
+					</TouchableOpacity>
 			</View>
 		</View>
 		);
@@ -231,7 +239,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		margin:'1%',
 		left: 0,
-		 position: 'absolute',
+		position: 'absolute',
 		right: 0,
 		top: -5,
 		zIndex: 6
@@ -247,8 +255,8 @@ const styles = StyleSheet.create({
 		 zIndex: 5
 	  },
 	  autocompleteRadius:{
-		borderRadius:10,
-		backgroundColor:'#BB2CD9',
+		borderRadius:0,
+		backgroundColor:'#2C3335',//background color for search bars
 		height:40,color:'white',
 	  },
 	  mainStyle:{
@@ -287,7 +295,7 @@ const styles = StyleSheet.create({
   	textInputStyle: {  
 		  backgroundColor:'white',
 		  	borderRadius:10,
-    		borderColor: '#9a73ef',  
+    		borderColor: '#2C3335',  
     		borderWidth: 1,  
     		height: 40,  
     		margin: 10,  
@@ -300,7 +308,7 @@ const styles = StyleSheet.create({
 	  textInputStyle2: {  
 		backgroundColor:'white',
 			borderRadius:10,
-		  borderColor: '#9a73ef',  
+		  borderColor: '#2C3335',  
 		  borderWidth: 1,  
 		  height: 40,  
 		  margin: 10,  
@@ -345,5 +353,17 @@ const styles = StyleSheet.create({
 		zIndex:7,
 		left:150,
 	},
+	button:{
+		backgroundColor:'#FF362E',
+		paddingVertical:5,
+		paddingHorizontal:5,
+		borderRadius:20,
+		alignItems:'center'
+	},
+	buttonText:{
+		color:'white',
+		fontSize:18,
+		
+	}
 })  
 

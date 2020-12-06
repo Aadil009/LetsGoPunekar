@@ -170,16 +170,25 @@ export default class RouteMap extends React.Component {
 
 
       </MapView>
+
       <View style={styles.container}>
-        <TouchableOpacity style={styles.touchableStyle} onPress={this.handleOpen}>
-          <Button title='Route Description' onPress={this.handleOpen} />
-        </TouchableOpacity>
+        
+        <TouchableOpacity onPress={this.handleOpen} style={{alignContent:'center', marginBottom:30 ,width:deviceWidth }} >
+						<View style={styles.button} >
+							<Text style={styles.buttonText} >
+							Route Description
+							</Text>
+						</View>
+					</TouchableOpacity>
+          
 
         <Animated.View style={[StyleSheet.absoluteFill, styles.cover, backdrop]}>
           <View style={[styles.sheet]}>
             <Animated.View style={[styles.popup, slideUp]}>
-              <TouchableOpacity onPress={this.handleClose}>
-                <Text>Close</Text>
+              <TouchableOpacity style={{top:5}} onPress={this.handleClose}>
+              <View style={styles.closeButton } >
+                <Text style={{color:'white',fontSize:16,fontWeight:'bold'}}>Close</Text>
+                </View>
               </TouchableOpacity>
 
 
@@ -233,8 +242,8 @@ export default class RouteMap extends React.Component {
   },
   container: {
     flex: 1,
-  
-    justifyContent: "center",
+    alignItems:'center',
+    justifyContent: 'flex-end',
   },
   touchableStyle:{
     top:deviceHeight/3,
@@ -251,7 +260,7 @@ export default class RouteMap extends React.Component {
     justifyContent: "flex-end",
   },
   popup: {
-    backgroundColor: "#FFF",
+    backgroundColor: "#2C3335",
     marginHorizontal: 10,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
@@ -261,11 +270,12 @@ export default class RouteMap extends React.Component {
   },
   scroll: {
     height: 300,
+    top:10
   },
   descriptionTextStyle:{
     fontSize:15,
     fontWeight:'bold',
-  
+    color:'white',
     padding: 10
   },
 
@@ -276,7 +286,26 @@ export default class RouteMap extends React.Component {
   },
   text: {
     fontSize: 15,
-    color: '#606070',
+    color: 'white',
     padding: 10,
   },
+  button:{
+		backgroundColor:'#4C4B4B',
+		paddingVertical:5,
+    paddingHorizontal:5,
+		borderRadius:20,
+		alignItems:'center'
+	},
+	buttonText:{
+		color:'white',
+		fontSize:18,
+		
+  },
+  closeButton:{
+    backgroundColor:'#FF362E',
+    paddingHorizontal:25,
+    marginHorizontal:5,
+		borderRadius:5,
+		alignItems:'center'
+  }
 });

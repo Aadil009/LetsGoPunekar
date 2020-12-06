@@ -1,5 +1,4 @@
 import React,{ Component} from 'react';
-import { StyleSheet, Text, View} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Home from './components/Home'
@@ -15,23 +14,26 @@ function MainStackNavigator() {
     
     <NavigationContainer>
       
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerStyle: { backgroundColor: '#2C3335' } }} >
         
         <Stack.Screen name="LET'S GO PUNEKAR" component={Home}
           options={{
             
-            headerTitleAlign:'center'
+            headerTitleAlign:'center',
+          headerTintColor:'white'
             
           }} />
           <Stack.Screen name='Best Routes' component={BestRouteList}
         options={{
-          headerTitleAlign:'center'
+          headerTitleAlign:'center',
+          headerTintColor:'white'
           
         }}
         />
         <Stack.Screen name='RouteMap' component={RouteMap}
         options={{
           headerTitleAlign:'center',
+          headerTintColor:'white'
           
         }}
         />
